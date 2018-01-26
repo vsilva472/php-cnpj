@@ -49,7 +49,7 @@ $cnpj = '23.456.789/0001-55';
 $validator = new \Vsilva472\phpCNPJ\CNPJ();
 
 // @boolean 
-$is_cnpj_valid = $cpf->validate( $_POST[ 'cnpj' ] );
+$is_cnpj_valid = $cnpj->validate( $_POST[ 'cnpj' ] );
 
 if ( $is_cnpj_valid ) {
     // do something with valid CNPJ
