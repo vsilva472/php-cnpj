@@ -1,4 +1,5 @@
 # Validar CNPJ em PHP
+[![Build Status](https://travis-ci.org/vsilva472/php-cnpj.svg?branch=master)](https://travis-ci.org/vsilva472/php-cnpj) [![license](https://img.shields.io/github/license/vsilva472/php-cnpj.svg)](https://github.com/vsilva472/php-cnpj/blob/master/LICENSE.md) [![Packagist](https://img.shields.io/packagist/v/vsilva472/php-cnpj.svg)](https://packagist.org/packages/vsilva472/php-cnpj)
 
 ## Descrição
 
