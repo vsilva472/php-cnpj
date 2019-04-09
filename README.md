@@ -69,11 +69,17 @@ Esta classe é uma versão em PHP OO (com ligireiras modificações) da função
 Todo o crédito na elaboração do algorítimo de validação deve ser dado ao autor da função.
 
 
-## Créditos
+### Créditos
 Equipe do site [http://www.geradorcnpj.com](http://www.geradorcnpj.com) por disponibilizar a função em js.
 
-## Changelog
+### Doação
+Contribua para o projeto doando qualquer quantidade de **HTMLCOIN**  
+Carteira: **[HqgaiK6T1o2JP4p3p34CZp2g3XnSsSdCXp](htmlcoin:HqgaiK6T1o2JP4p3p34CZp2g3XnSsSdCXp?label=Doa%C3%A7%C3%B5es%20Github)**  
+  
+![Doar HTMLCoin](https://www.viniciusdesouza.com.br/img/htmlcoin.png)
+
+#### Changelog
 Para consultar o log de alterações acesse o arquivo [CHANGELOG.md](https://github.com/vsilva472/php-cnpj/blob/master/CHANGELOG.md)
 
-## Licença
+#### Licença
 MIT
