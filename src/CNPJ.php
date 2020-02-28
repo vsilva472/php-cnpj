@@ -63,7 +63,7 @@ class CNPJ
 
         $dg1 = $this->calculateDigit( $cnpj_numbers, self::FIRST_DIGIT_POSITION );
 
-        if ( $dg1 != $cnpj_numbers{self::FIRST_DIGIT_POSITION} ) {
+        if ( $dg1 != $cnpj_numbers[self::FIRST_DIGIT_POSITION] ) {
             return false;
         }
 
