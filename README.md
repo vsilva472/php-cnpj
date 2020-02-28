@@ -6,7 +6,7 @@
 phpCNPJ é uma classe escrita em PHP para validar CNPJ (independente se o valor possui máscara aplicada 99.999.999/9999-99 ou não) de acordo com as normas estabelecidas pelo governo brasileiro.
 
 ## Requisitos
-* [PHP](https://php.net) 5.6+
+* [PHP](https://php.net) 7.1+
 
 ## Instalação
 > Nota: Recomendamos a instalação via **Composer**. Você também pode baixar o repositório como arquivo zip ou fazer um clone via Git.

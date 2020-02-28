@@ -70,7 +70,7 @@ class CNPJ
         // lazy calculated
         $dg2 = $this->calculateDigit( $cnpj_numbers, self::SECOND_DIGIT_POSITION );
 
-        if ( $dg2 != $cnpj_numbers{self::SECOND_DIGIT_POSITION} ) {
+        if ( $dg2 != $cnpj_numbers[self::SECOND_DIGIT_POSITION] ) {
             return false;
         }
 
@@ -135,7 +135,7 @@ class CNPJ
         $numbers = substr($cnpj,0, $str_length);
 
         for ($i = $str_length; $i >= 1; $i--) {
-            $sum += $numbers{$str_length - $i} * $pos--;
+            $sum += $numbers[$str_length - $i] * $pos--;
             if ($pos < 2) $pos = 9;
         }
 
