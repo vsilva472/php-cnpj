@@ -1,20 +1,11 @@
 <?php
-/*-------------------------------------------------------------------------------------
- * DISCLAIMER
- * -------------------------------------------------------------------------------------
- * This is a PHP OO solution to validate Brazilian CNPJ
- * based on http://www.geradorcnpj.com/javascript-validar-cnpj.htm
- *
- * Thanks to http://www.geradorcnpj.com/ Team to share your solution
- */
 
 namespace Vsilva472\phpCNPJ;
-
 
 class CNPJ
 {
     /**
-     * @const   int
+     * @const int
      */
     const VALID_CNPJ_LENGTH = 14;
 
@@ -30,7 +21,6 @@ class CNPJ
 
     /**
      * @var array
-     * @see setDummyValues()
      */
     private $dummyValues = array();
 
@@ -39,38 +29,38 @@ class CNPJ
      */
     public function __construct()
     {
-        // generate dummy values
-        for ( $i = 0; $i<=9; $i++) {
-            $this->dummyValues[] .= str_pad('',self::VALID_CNPJ_LENGTH, $i);
+        for ($i = 0; $i <= 9; $i++) {
+            $this->dummyValues[] = str_pad('', self::VALID_CNPJ_LENGTH, $i);
         }
     }
 
-    public function validate ($cnpj)
+    public function validate(?string $cnpj)
     {
-        $cnpj_numbers = $this->clean($cnpj);
+        if (empty($cnpj)) return false;
+        
+        $cnpj = strtoupper($this->clean($cnpj));
 
-        if ( ! $this->hasValidPattern( $cnpj ) ) {
+        if (! $this->hasValidPattern($cnpj)) {
             return false;
         }
 
-        if( strlen( $cnpj_numbers ) !== self::VALID_CNPJ_LENGTH ) {
+        if (strlen($cnpj) !== self::VALID_CNPJ_LENGTH) {
             return false;
         }
 
-        if ( $this->isDummyValue( $cnpj_numbers ) ) {
+        if ($this->isDummyValue($cnpj)) {
             return false;
         }
 
-        $dg1 = $this->calculateDigit( $cnpj_numbers, self::FIRST_DIGIT_POSITION );
+        $dg1 = $this->calculateDigit($cnpj, self::FIRST_DIGIT_POSITION);
 
-        if ( $dg1 != $cnpj_numbers[self::FIRST_DIGIT_POSITION] ) {
+        if ($dg1 != $cnpj[self::FIRST_DIGIT_POSITION]) {
             return false;
         }
 
-        // lazy calculated
-        $dg2 = $this->calculateDigit( $cnpj_numbers, self::SECOND_DIGIT_POSITION );
+        $dg2 = $this->calculateDigit($cnpj, self::SECOND_DIGIT_POSITION);
 
-        if ( $dg2 != $cnpj_numbers[self::SECOND_DIGIT_POSITION] ) {
+        if ($dg2 != $cnpj[self::SECOND_DIGIT_POSITION]) {
             return false;
         }
 
@@ -78,67 +68,90 @@ class CNPJ
     }
 
     /**
-     * Extract only the digits
+     * Remove apenas máscara e espaços.
      *
-     * @param   string/int  $cnpj
-     * @return string/int
+     * Mantém letras e números.
+     *
+     * @param string|int $cnpj
+     * @return string
      */
     private function clean($cnpj)
     {
-        return preg_replace("/[^0-9]/", "", $cnpj);
+        return preg_replace('/[^A-Za-z0-9]/', '', $cnpj);
     }
 
     /**
-     * Check if a given CNPJ has a valid pattern
+     * Check if a given CNPJ has a valid pattern.
      *
-     * @param $cnpj
-     * @see validate()
+     * Aceita:
+     *  - CNPJ numérico tradicional
+     *  - CNPJ alfanumérico
+     *  - Ambos com ou sem máscara
      *
+     * @param string $cnpj
      * @return bool
      */
     private function hasValidPattern($cnpj)
     {
-        $mask = "/^[0-9]{2}\.[0-9]{3}\.[0-9]{3}\/[0-9]{4}\-[0-9]{2}$/";
+        $masked = '/^[A-Z0-9]{2}\.[A-Z0-9]{3}\.[A-Z0-9]{3}\/[A-Z0-9]{4}-[0-9]{2}$/';
+        $unmasked = '/^[A-Z0-9]{14}$/';
 
-        if( ! preg_match($mask, $cnpj) && !preg_match( "/^[0-9]{14}$/", $cnpj ) ) {
-            return false;
-        }
-
-        return true;
+        return preg_match($masked, $cnpj) || preg_match($unmasked, $cnpj);
     }
 
     /**
-     * Check if a give cnpj is a dummy value
+     * Check if a given CNPJ is a dummy value.
      *
-     * @param $cnpj
-     * @see validate()
-     *
+     * @param string $cnpj
      * @return bool
      */
-    private function isDummyValue( $cnpj ) {
-        return in_array( $cnpj, $this->dummyValues );
+    private function isDummyValue($cnpj)
+    {
+        return in_array($cnpj, $this->dummyValues);
     }
 
     /**
-     * Caculate the digi by position
+     * Calculate digit by position.
      *
-     * @param   string  $cnpj
-     * @param   int     $str_length
-     * @see     validate()
-     *
-     * @return  int
+     * @param string $cnpj
+     * @param int $strLength
+     * @return int
      */
-    private function calculateDigit($cnpj, $str_length)
+    private function calculateDigit($cnpj, $strLength)
     {
-        $sum     = 0;
-        $pos     = $str_length - 7;
-        $numbers = substr($cnpj,0, $str_length);
+        $sum = 0;
+        $pos = $strLength - 7;
+        $characters = substr($cnpj, 0, $strLength);
 
-        for ($i = $str_length; $i >= 1; $i--) {
-            $sum += $numbers[$str_length - $i] * $pos--;
-            if ($pos < 2) $pos = 9;
+        for ($i = $strLength; $i >= 1; $i--) {
+            $value = $this->characterValue($characters[$strLength - $i]);
+
+            $sum += $value * $pos--;
+
+            if ($pos < 2) {
+                $pos = 9;
+            }
         }
 
         return ($sum % 11) < 2 ? 0 : 11 - ($sum % 11);
+    }
+
+    /**
+     * Convert a CNPJ character to its numeric value.
+     *
+     * Digits keep their numeric value.
+     * Letters use ASCII - 48:
+     *
+     * A = 17
+     * B = 18
+     * ...
+     * Z = 42
+     *
+     * @param string $character
+     * @return int
+     */
+    private function characterValue($character)
+    {
+        return ord($character) - 48;
     }
 }

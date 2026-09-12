@@ -2,9 +2,9 @@
 
 namespace Vsilva472\phpCNPJ;
 
-use PHPUnit_Framework_TestCase as PHPUnit;
+use PHPUnit\Framework\TestCase;
 
-class CNPJTest extends PHPUnit
+class CNPJTest extends TestCase
 {
     public function testOnlyShouldAcceptValidCNPJ()
     {
@@ -58,5 +58,20 @@ class CNPJTest extends PHPUnit
         $this->assertTrue( $validator->validate( '42.334.144/0001-24' ) );
         $this->assertTrue( $validator->validate( '42334144000124' ) );
         $this->assertTrue( $validator->validate( 42334144000124 ) );
+
+        // https://servicos.receitafederal.gov.br/servico/cnpj-alfa/simular
+        $this->assertTrue( $validator->validate('T5.5BH.TLT/0001-86') );
+        $this->assertTrue( $validator->validate('33.5D9.VZD/0001-80') );
+        $this->assertTrue( $validator->validate('ZV.KA8.L1Y/0001-69') );
+        $this->assertTrue( $validator->validate('2S.X98.360/0001-13') );
+        $this->assertTrue( $validator->validate('N8.6DG.332/0001-00') );
+
+        // invalidos
+        $this->assertFalse( $validator->validate('N8.6DG.332/0001-25') );
+        $this->assertFalse( $validator->validate('45.RTY.FGD/D454-HG') );
+        $this->assertFalse( $validator->validate('AA.AAA.AAA/AAAA-00') );
+        $this->assertFalse( $validator->validate('BB.BBB.BBB/BBBB-BB') );
+        $this->assertFalse( $validator->validate('CC.CCC.CCC/CCCC-CC') );
+        $this->assertFalse( $validator->validate('DD.DDD.DDD/DDDD-DD') );
     }
 }
