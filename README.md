@@ -1,5 +1,6 @@
-# Validar CNPJ em PHP
+# Validar CNPJ Alfanúmerico em PHP
 
+[![Tests](https://github.com/vsilva472/php-cnpj/actions/workflows/tests.yml/badge.svg)](https://github.com/vsilva472/php-cnpj/actions/workflows/tests.yml)
 [![License](https://img.shields.io/github/license/vsilva472/php-cnpj.svg)](https://github.com/vsilva472/php-cnpj/blob/master/LICENSE.md)
 [![Packagist](https://img.shields.io/packagist/v/vsilva472/php-cnpj.svg)](https://packagist.org/packages/vsilva472/php-cnpj)
 
